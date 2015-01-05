@@ -3,7 +3,7 @@ FROM mongo
 RUN mkdir /share
 
 # Prettify ls
-RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc && source /root/.bashrc
+RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
 
 # Install git.
 RUN apt-get update && apt-get install -y git
