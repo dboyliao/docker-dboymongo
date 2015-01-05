@@ -9,7 +9,7 @@ RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
 RUN apt-get update && apt-get install -y git
 
 # Install ps related binary cmd.
-RUN apt-get install -y --reinstall procps build-essential
+RUN apt-get install -y --reinstall procps build-essential apt-utils
 
 # Install necessary C-compiler and install python.
 RUN apt-get install -y python-pip && pip install pymongo
