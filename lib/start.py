@@ -28,10 +28,10 @@ msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}, logpath {logpat
 subprocess.call(cmd.format(port = mongo_port,
 						   dbpath = mongo_dbpath,
 						   logpath = mongo_logpath), shell = True)
-print msg.format(port=mongo_port, logpath=mongo_logpath)
+print msg.format(port=mongo_port, logpath=mongo_logpath, dbpah=mongo_dbpath)
 
 # Initialize a MongoClient.
-client = MongoClient("localhost:{port}".format(port = mongo_port))
+client = MongoClient(port = mongo_port)
 admin_db = client.admin
 
 # Add user administrator.
