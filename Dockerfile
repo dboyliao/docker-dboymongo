@@ -1,7 +1,6 @@
-FROM ubuntu
+FROM mongo
 
-# Install MongoDB
-
+# Make a empty share directory for outer-files to be shared.
 RUN mkdir /share
 
 # Prettify ls
