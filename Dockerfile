@@ -5,8 +5,8 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
 RUN apt-get update && apt-get install -y mongodb-org
 
-# Make a empty share directory for outer-files to be shared.
-RUN mkdir /share
+# Make a empty share directory for outer-files to be shared. Setup default mongodb dbpath.
+RUN mkdir /share && mkdir -p /data/db
 
 # Prettify ls
 RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
