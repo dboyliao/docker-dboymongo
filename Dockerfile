@@ -1,9 +1,10 @@
-FROM debian:wheezy
+FROM debian
 
 # Add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r mongodb && useradd -r -g mongodb mongodb
 
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# Installing curl and git.
+RUN apt-get update && apt-get install -y curl git-core && rm -rf /var/lib/apt/lists/*
 
 # Grab gosu for easy step-down from root
 RUN gpg --keyserver pgp.mit.edu --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
@@ -29,9 +30,6 @@ RUN mkdir /share
 
 # Prettify ls
 RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
-
-# Install git.
-RUN apt-get install -y git-core
 
 # Install ps related binary cmd.
 RUN apt-get install -y apt-utils
