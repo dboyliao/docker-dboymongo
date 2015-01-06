@@ -1,4 +1,4 @@
-FROM mongo
+FROM debian
 
 # Make a empty share directory for outer-files to be shared.
 RUN mkdir /share
@@ -30,4 +30,8 @@ ADD lib/* /root/scripts/
 
 EXPOSE 27017
 
-CMD chmod +x /root/scripts/start.sh && /root/scripts/start.sh
+WORKDIR /root/scripts
+
+RUN chmod +x start.sh
+
+CMD ./start.sh

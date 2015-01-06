@@ -23,8 +23,9 @@ mongo_logpath = globals_var["MONGO_LOGPATH"] if "MONGO_LOGPATH" in globals_var e
 mongo_users = globals_var.get["MONGO_USERS"] if "MONGO_USERS" in globals_var else eval(os.getenv("MONGO_USERS", '[{"user":"mongo", "pwd":"mongo", "roles":[{"role":"readWrite", "db":"test"}]}]'))
 
 # Start mongod
-cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork"
+cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork --smallfiles"
 msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}, logpath {logpath}."
+print cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath)
 subprocess.call(cmd.format(port = mongo_port,
                            dbpath = mongo_dbpath,
                            logpath = mongo_logpath), shell = True)
@@ -43,9 +44,8 @@ admin_db.authenticate(admin_user, admin_pwd)
 
 # Add users.
 print "[MongoDB] Add users"
-print mongo_users
 for user in mongo_users:
-    db = client[user["roles"]["db"]]
+    db = client[user["roles"][0]["db"]]
     db.add_user(user["user"], user["pwd"], roles=user["roles"])
 
 # Shut down mongod
