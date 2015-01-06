@@ -6,10 +6,10 @@ from pymongo import MongoClient
 # If so, get all values in config.py.
 mongo_config = os.getenv("MONGO_CONFIG", None)
 if mongo_config:
-	with open(mongo_config, "r") as rf:
-		lines = rf.readlines()
-		import_context = "\n".join(lines)
-		exec(import_context)
+    with open(mongo_config, "r") as rf:
+        lines = rf.readlines()
+        import_context = "\n".join(lines)
+        exec(import_context)
 
 globals_var = globals()
 
@@ -26,8 +26,8 @@ mongo_users = globals_var.get["MONGO_USERS"] if "MONGO_USERS" in globals_var els
 cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork"
 msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}, logpath {logpath}."
 subprocess.call(cmd.format(port = mongo_port,
-						   dbpath = mongo_dbpath,
-						   logpath = mongo_logpath), shell = True)
+                           dbpath = mongo_dbpath,
+                           logpath = mongo_logpath), shell = True)
 print msg.format(port=mongo_port, logpath=mongo_logpath, dbpath=mongo_dbpath)
 
 # Initialize a MongoClient.
@@ -45,22 +45,22 @@ admin_db.authenticate(admin_user, admin_pwd)
 print "[MongoDB] Add users"
 print mongo_users
 for user in mongo_users:
-	db = client[user["roles"]["db"]]
-	db.add_user(user["user"], user["pwd"], roles=user["roles"])
+    db = client[user["roles"]["db"]]
+    db.add_user(user["user"], user["pwd"], roles=user["roles"])
 
 # Shut down mongod
 subprocess.call("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
 if mongo_daemonize:
-	subprocess.call(cmd.format(port = mongo_port,
-							   dbpath = mongo_dbpath,
-							   logpath = mongo_logpath), shell=True)
-	print msg.format(port=mongo_port, dbpath=mongo_dbpath, logpath = mongo_logpath)
-	subprocess.call("echo 'export MONGO_DAEMONIZE={mongo_daemonize}' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
+    subprocess.call(cmd.format(port = mongo_port,
+                               dbpath = mongo_dbpath,
+                               logpath = mongo_logpath), shell=True)
+    print msg.format(port=mongo_port, dbpath=mongo_dbpath, logpath = mongo_logpath)
+    subprocess.call("echo 'export MONGO_DAEMONIZE={mongo_daemonize}' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
 else:
-	subprocess.call("echo 'export MONGO_DAEMONIZE=\"{mongo_daemonize}\"' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
-	subprocess.call("echo 'export MONGO_PORT=\"{mongo_port}\"' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
-	subprocess.call("echo 'export MONGO_DBPATH=\"{mongo_dbpath}\"' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
+    subprocess.call("echo 'export MONGO_DAEMONIZE=\"{mongo_daemonize}\"' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
+    subprocess.call("echo 'export MONGO_PORT=\"{mongo_port}\"' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
+    subprocess.call("echo 'export MONGO_DBPATH=\"{mongo_dbpath}\"' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
 subprocess.call("/bin/bash -c 'exec $SHELL'", shell = True)
 
