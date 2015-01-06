@@ -1,4 +1,11 @@
-FROM mongo
+FROM debian
+
+# Install MongoDB.
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
+
+RUN apt-get update && apt-get install -y mongodb-org
 
 # Make a empty share directory for outer-files to be shared.
 RUN mkdir /share
@@ -7,7 +14,7 @@ RUN mkdir /share
 RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
 
 # Install git.
-RUN apt-get update && apt-get install -y git
+RUN apt-get install -y git
 
 # Install ps related binary cmd.
 RUN apt-get install -y apt-utils

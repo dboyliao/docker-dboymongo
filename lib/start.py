@@ -23,7 +23,7 @@ mongo_logpath = globals_var["MONGO_LOGPATH"] if "MONGO_LOGPATH" in globals_var e
 mongo_users = globals_var.get["MONGO_USERS"] if "MONGO_USERS" in globals_var else eval(os.getenv("MONGO_USERS", '[{"user":"mongo", "pwd":"mongo", "roles":[{"role":"readWrite", "db":"test"}]}]'))
 
 # Start mongod
-cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork --smallfiles"
+cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork"
 msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}, logpath {logpath}."
 print cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath)
 subprocess.call(cmd.format(port = mongo_port,
