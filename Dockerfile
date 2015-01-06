@@ -1,4 +1,4 @@
-FROM debian
+FROM mongo
 
 # Make a empty share directory for outer-files to be shared.
 RUN mkdir /share
