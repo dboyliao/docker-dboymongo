@@ -6,7 +6,7 @@ RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10ge
 RUN apt-get update && apt-get install -y mongodb-org
 
 # Make a empty share directory for outer-files to be shared. Setup default mongodb dbpath.
-RUN mkdir /share && mkdir -p /data/db
+RUN mkdir -p /data/db /share 
 
 # Prettify ls
 RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc

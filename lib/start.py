@@ -52,15 +52,16 @@ for user in mongo_users:
 subprocess.call("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
+cmd = "mongod --auth --port {port} --dbpath {dbpath} --smallfiles"
 if mongo_daemonize:
+    cmd += " --fork"
+    print msg.format(port=mongo_port, dbpath=mongo_dbpath, logpath = mongo_logpath)
     subprocess.call(cmd.format(port = mongo_port,
                                dbpath = mongo_dbpath,
                                logpath = mongo_logpath), shell=True)
-    print msg.format(port=mongo_port, dbpath=mongo_dbpath, logpath = mongo_logpath)
-    subprocess.call("echo 'export MONGO_DAEMONIZE={mongo_daemonize}' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
 else:
-    subprocess.call("echo 'export MONGO_DAEMONIZE=\"{mongo_daemonize}\"' >> ~/.bashrc".format(mongo_daemonize = mongo_daemonize), shell = True)
-    subprocess.call("echo 'export MONGO_PORT=\"{mongo_port}\"' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
-    subprocess.call("echo 'export MONGO_DBPATH=\"{mongo_dbpath}\"' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
-subprocess.call("/bin/bash -c 'exec $SHELL'", shell = True)
+    print msg.format(port=mongo_port, dbpath=mongo_dbpath, logpath = mongo_logpath)
+    subprocess.call(cmd.format(port = mongo_port,
+                               dbpath = mongo_dbpath,
+                               logpath = mongo_logpath), shell=True)
 
