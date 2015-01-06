@@ -1,4 +1,6 @@
-FROM mongo
+FROM ubuntu
+
+# Install MongoDB
 
 RUN mkdir /share
 
@@ -9,7 +11,8 @@ RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
 RUN apt-get update && apt-get install -y git
 
 # Install ps related binary cmd.
-RUN apt-get install -y --reinstall procps build-essential apt-utils
+RUN apt-get install -y apt-utils
+RUN apt-get install -y --reinstall procps build-essential
 
 # Install necessary C-compiler and install python.
 RUN apt-get install -y python-pip && pip install pymongo
@@ -26,4 +29,6 @@ RUN mkdir /root/scripts
 
 ADD lib/* /root/scripts/
 
-CMD sh /root/scripts/start.sh
+EXPOSE 27017
+
+CMD chmod +x /root/scripts/start.sh && /root/scripts/start.sh
