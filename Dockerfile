@@ -31,7 +31,7 @@ RUN mkdir /share
 RUN echo "alias ls=\"ls --color='auto' -p\"" >> /root/.bashrc
 
 # Install git.
-RUN apt-get install -y git
+RUN apt-get install -y git-core
 
 # Install ps related binary cmd.
 RUN apt-get install -y apt-utils
