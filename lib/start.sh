@@ -1,1 +1,0 @@
-mongod --auth --port $MONGO_PORT --dbpath $MONGO_DBPATH --logpath $MONGO_LOGPATH --smallfiles

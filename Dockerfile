@@ -43,4 +43,6 @@ ADD mongod.conf /var/mongod.conf
 
 EXPOSE 27017
 
-CMD python2.7 /root/scripts/start.py && sh /root/mongod.sh
+RUN python2.7 /root/scripts/start.py
+
+CMD sh /root/mongod.sh
