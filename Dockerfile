@@ -43,4 +43,6 @@ ADD mongod.conf /var/mongod.conf
 
 EXPOSE 27017
 
-CMD /bin/bash /root/scripts/start.sh
+RUN python2.7 /root/scripts/start.py
+
+CMD mongod --auth --port $MONGO_PORT --dbpath $MONGO_DBPATH --logpath $MONGO_LOGPATH --smallfiles
