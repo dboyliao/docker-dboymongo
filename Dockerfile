@@ -45,4 +45,4 @@ EXPOSE 27017
 
 RUN python2.7 /root/scripts/start.py
 
-CMD mongod --auth --port $MONGO_PORT --dbpath $MONGO_DBPATH --logpath $MONGO_LOGPATH --smallfiles
+CMD sh start.sh
