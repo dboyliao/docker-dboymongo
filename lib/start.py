@@ -56,6 +56,8 @@ print "[MongDB] Setup complete. Shutting down mongod."
 subprocess.call("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
+cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --logpath {logpath} --smallfiles' > /root/mongod.sh"
+subprocess.call(cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath), shell = True)
 subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
 subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
 subprocess.call("echo 'export MONGO_LOGPATH={mongo_logpath}' >> ~/.bashrc".format(mongo_logpath = mongo_logpath), shell = True )
