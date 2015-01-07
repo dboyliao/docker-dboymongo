@@ -25,7 +25,7 @@ RUN apt-get install -y --reinstall procps build-essential
 
 # Install necessary C-compiler and install python.
 RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-RUN echo 'eval "$(pyenv init -)"' > /root/.bashrc
+RUN echo 'eval "$(pyenv init -)"' >> /root/.bashrc
 RUN pyenv install 2.7.8 && pyenv global 2.7.8 && pip install pymongo
 
 # Install nano.
