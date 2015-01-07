@@ -5,6 +5,7 @@ from pymongo import MongoClient
 # Check whether user has specified config.py .
 # If so, get all values in config.py.
 mongo_config = os.getenv("MONGO_CONFIG", None)
+print mongo_config
 if mongo_config:
     with open(mongo_config, "r") as rf:
         lines = rf.readlines()
@@ -54,6 +55,7 @@ for user in mongo_users:
 # Shut down mongod
 print "[MongDB] Setup complete. Shutting down mongod."
 subprocess.call("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill", shell = True)
+subprocess.call("rm {logpath}".format(logpath = mongo_logpath), shell = True)
 
 # Start mongod if the user want it running in daemon mode.
 cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --logpath {logpath} --smallfiles' > /root/mongod.sh"
