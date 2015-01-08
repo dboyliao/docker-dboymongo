@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-python /home/scripts/start.py && bash /home/scripts/mongod.sh
+python /home/scripts/setup.py 
+
+sh /home/scripts/mongod_start.sh
