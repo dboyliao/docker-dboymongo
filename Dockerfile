@@ -4,7 +4,7 @@ FROM dockerfile/mongodb
 # /data/db: default mongod dbpath.
 # /share: an empty directory to put outer files into.
 # /root/scripts: containing all helper scripts.
-VOLUME ["/share", "/root/scripts"]
+VOLUME ["/share", "/home/scripts"]
 
 # Install git, ps related binary cmd and necessary C-compiler.
 RUN apt-get update && apt-get install -y git-core && apt-get install -y apt-utils && apt-get install -y --reinstall procps build-essential
@@ -20,11 +20,11 @@ RUN git clone https://github.com/dboyliao/nanorc_files /root/nanorc && touch /ro
 RUN ls /root/nanorc | grep -v man-html | grep -v README.md | awk '{print "include /root/nanorc/" $1}' >> /root/.nanorc
 
 # Adding .py and .js files
-ADD lib/* /root/scripts/
+ADD lib/* /home/scripts/
 ADD mongod.conf /var/mongod.conf
 
-WORKDIR /root
+WORKDIR /home
 
-CMD python /root/scripts/start.py && sh mongod.sh
+CMD bash /home/start.sh
 
 EXPOSE 27017

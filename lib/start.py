@@ -61,7 +61,7 @@ subprocess.call("rm /tmp/tmp.log", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
 if mongo_logpath:
-    cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --logpath {logpath} --smallfiles' > /root/mongod.sh"
+    cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --logpath {logpath}' >> /home/mongod.sh"
     subprocess.call(cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
     subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
@@ -69,7 +69,7 @@ if mongo_logpath:
                                                                                                     dbpath = mongo_dbpath,
                                                                                                     logpath = mongo_logpath)
 else:
-    cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --smallfiles' > /root/mongod.sh"
+    cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath}' >> /home/mongod.sh"
     subprocess.call(cmd.format(port = mongo_port, dbpath = mongo_dbpath), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
     subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)

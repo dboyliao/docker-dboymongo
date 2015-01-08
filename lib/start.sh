@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python2.7 /root/scripts/start.py && /root/mongod.sh
+python /home/start.py && bash /home/mongod.sh
