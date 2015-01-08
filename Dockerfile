@@ -39,9 +39,8 @@ RUN ls /root/nanorc | grep -v man-html | grep -v README.md | awk '{print "includ
 # Adding .py and .js files
 ADD lib/* /root/scripts/
 ADD mongod.conf /var/mongod.conf
+RUN chmod +x /root/scripts/start.sh
 
 EXPOSE 27017
 
-ENTRYPOINT /bin/bash
-
-CMD ["python2.7 /root/scripts/start.py && sh /root/mongod.sh"]
+CMD /root/scripts/start.sh
