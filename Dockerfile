@@ -39,7 +39,7 @@ RUN ls /root/nanorc | grep -v man-html | grep -v README.md | awk '{print "includ
 # Adding .py and .js files
 ADD lib/* /root/scripts/
 ADD mongod.conf /var/mongod.conf
-RUN chmod +x /root/scripts/start.sh
+RUN chmod a+x /root/scripts/start.sh
 
 EXPOSE 27017
 
