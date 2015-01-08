@@ -1,7 +1,7 @@
-[dboyliao/docker-dboymongo](https://github.com/dboyliao/docker-dboymongo)
+[dboyliao/docker-mongotest](https://github.com/dboyliao/docker-dboymongo)
 ======
 
-# Docker Image for Fast Users Setup
+# Docker Image for Fast Users Setup (Testing version -- log)
 
 ### This docker image config all users, including user administrator, through config.py
 

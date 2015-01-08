@@ -19,17 +19,15 @@ admin_user = globals_var["MONGO_ADMIN"] if "MONGO_ADMIN" in globals_var else os.
 admin_pwd = globals_var["MONGO_ADMIN_PWD"] if "MONGO_ADMIN_PWD" in globals_var else os.getenv("MONGO_ADMIN_PWD" ,"adminpwd")
 mongo_port = globals_var["MONGO_PORT"] if "MONGO_PORT" in globals_var else int(os.getenv("MONGO_PORT", 27017))
 mongo_dbpath = globals_var["MONGO_DBPATH"] if "MONGO_DBPATH" in globals_var else os.getenv("MONGO_DBPATH", "/data/db")
-mongo_logpath = globals_var["MONGO_LOGPATH"] if "MONGO_LOGPATH" in globals_var else os.getenv("MONGO_LOGPATH", "/share/db.log")
 mongo_users = globals_var["MONGO_USERS"] if "MONGO_USERS" in globals_var else eval(os.getenv("MONGO_USERS", '[{"user":"mongo", "pwd":"mongo", "roles":[{"role":"readWrite", "db":"test"}]}]'))
 
 # Start mongod
-cmd = "mongod --port {port} --dbpath {dbpath} --logpath {logpath} --fork --smallfiles"
-msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}, logpath {logpath}."
-print cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath)
+cmd = "mongod --port {port} --dbpath {dbpath} --logpath /tmp/tmp.log --fork --smallfiles"
+msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath}."
+print cmd.format(port = mongo_port, dbpath = mongo_dbpath)
 subprocess.call(cmd.format(port = mongo_port,
-                           dbpath = mongo_dbpath,
-                           logpath = mongo_logpath), shell = True)
-print msg.format(port=mongo_port, logpath=mongo_logpath, dbpath=mongo_dbpath)
+                           dbpath = mongo_dbpath), shell = True)
+print msg.format(port=mongo_port, dbpath=mongo_dbpath)
 
 # Initialize a MongoClient.
 client = MongoClient(port = mongo_port)
@@ -53,14 +51,15 @@ for user in mongo_users:
         db.add_user(user["user"], user["pwd"], roles=user["roles"])
 
 # Shut down mongod
-print "[MongDB] Setup complete. Shutting down mongod."
+print "[MongoDB] Setup complete. Shutting down mongod."
 subprocess.call("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill", shell = True)
-subprocess.call("rm {logpath}".format(logpath = mongo_logpath), shell = True)
+print "[MongoDB] Remove temp log files."
+subprocess.call("rm /tmp/tmp.log", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
-cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --logpath {logpath} --smallfiles' > /root/mongod.sh"
-subprocess.call(cmd.format(port = mongo_port, dbpath = mongo_dbpath, logpath = mongo_logpath), shell = True)
+cmd = "echo 'mongod --auth --port {port} --dbpath {dbpath} --smallfiles' > /root/mongod.sh"
+subprocess.call(cmd.format(port = mongo_port, dbpath = mongo_dbpath), shell = True)
 subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
 subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
-subprocess.call("echo 'export MONGO_LOGPATH={mongo_logpath}' >> ~/.bashrc".format(mongo_logpath = mongo_logpath), shell = True )
-
+print "[MongoDB] Running mongod at port {port} with dbpath {dbpath}.".format(port = mongo_port,
+                                                                             dbpath = mongo_dbpath)
