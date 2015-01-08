@@ -25,6 +25,6 @@ ADD mongod.conf /var/mongod.conf
 
 WORKDIR /home
 
-CMD bash /home/start.sh
+CMD bash /home/scripts/start.sh
 
 EXPOSE 27017
