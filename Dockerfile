@@ -1,4 +1,4 @@
-FROM c3h3/openblas
+FROM dockerfile/mongodb
 
 # ENV for pyenv.
 ENV HOME /root
@@ -9,12 +9,7 @@ ENV PATH $PYENVPATH/shims:$PYENVPATH/bin:$PATH
 # /data/db: default mongod dbpath.
 # /share: an empty directory to put outer files into.
 # /root/scripts: containing all helper scripts.
-VOLUME ["/data/db", "/share", "/root/scripts"]
-
-# Install MongoDB.
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-RUN echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
-RUN apt-get update && apt-get install -y mongodb-org && chown -R root:root /var/lib/mongodb
+VOLUME ["/share", "/root/scripts"]
 
 # Install git and ps related binary cmd.
 RUN apt-get update && apt-get install -y git-core && \
@@ -39,8 +34,9 @@ RUN ls /root/nanorc | grep -v man-html | grep -v README.md | awk '{print "includ
 # Adding .py and .js files
 ADD lib/* /root/scripts/
 ADD mongod.conf /var/mongod.conf
-RUN chmod a+x /root/scripts/start.sh
+
+WORKDIR /root
+
+CMD python /root/scripts/start.py && sh mongod.sh
 
 EXPOSE 27017
-
-CMD /root/scripts/start.sh

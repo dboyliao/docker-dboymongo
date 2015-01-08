@@ -45,7 +45,7 @@ admin_db.authenticate(admin_user, admin_pwd)
 print "[MongoDB] Add users"
 print mongo_users
 for user in mongo_users:
-    if user["roles"][0] == "root":
+    if user["roles"][0] == "roots":
         print "root!"
         db = client["admin"]
         db.add_user(user["user"], user["pwd"], roles = ["root"])

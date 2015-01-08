@@ -1,1 +1,3 @@
-python2.7 /root/scripts/start.py && chmod +x /root/mongod.sh && /root/mongod.sh
+#!/bin/bash
+
+python2.7 /root/scripts/start.py && /root/mongod.sh
