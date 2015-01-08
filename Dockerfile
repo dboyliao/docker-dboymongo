@@ -21,7 +21,6 @@ RUN ls /root/nanorc | grep -v man-html | grep -v README.md | awk '{print "includ
 
 # Adding .py and .js files
 ADD lib/* /home/scripts/
-ADD mongod.conf /var/mongod.conf
 
 WORKDIR /home
 
