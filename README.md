@@ -5,13 +5,16 @@
 
 ### This docker image config all users, including user administrator, through userinfo.py
 
-See ```userinfo_sample.py``` for all available settings.
+See ```lib/userinfo_sample.py``` for all available settings.
 
 ### Basic Usage
 
 ```
 docker run -it -p 27017:27017 dboyliao/docker-dboymongo
 ```
+
+**It may takes a while to setup MongoDB**
+
 - Then, type following command in your terminal shell
 
 	- <strong> Linux </strong>: ```mongo localhost:27017```
@@ -20,7 +23,7 @@ docker run -it -p 27017:27017 dboyliao/docker-dboymongo
 	
 **There is some issues about the filesystem for docker on OS X. I haven't found a solution for running mongod in docker on OS X. Sorry....**
 
-- You now should be able to connect to mongo and the users are setted according to default values. See ```userinfo_sample.py``` for all default values.
+- You now should be able to connect to mongo and the users are setted according to default values. See ```lib/userinfo_sample.py``` for all default values.
 
 ### Passing User Information
 
