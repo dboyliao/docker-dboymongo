@@ -9,3 +9,4 @@ MONGO_USERS = [
 	{"user":"mongo2", "pwd":"mongo2", "roles":[{"role":"readWrite", "db":"test2"}]},
 	{"user":"root", "pwd":"root", "roles":["root"]}
 ]
+MONGO_CONFIG = '/var/mongodb.conf'
