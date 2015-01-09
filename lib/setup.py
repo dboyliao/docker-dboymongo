@@ -25,7 +25,7 @@ mongo_config = globals_var["MONGO_CONFIG"] if "MONGO_CONFIG" in globals_var else
 
 # Start mongod
 cmd = "mongod --port {port} --dbpath {dbpath} --logpath /tmp/tmp.log --fork --smallfiles"
-msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath} in order to add users."
+msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath} in order to add users.\n"
 print cmd.format(port = mongo_port, dbpath = mongo_dbpath)
 subprocess.call(cmd.format(port = mongo_port,
                            dbpath = mongo_dbpath), shell = True)
@@ -36,14 +36,14 @@ client = MongoClient(port = mongo_port)
 admin_db = client.admin
 
 # Add user administrator.
-print "[MongoDB] Add user administrator."
+print "[MongoDB] Add user administrator.\n"
 admin_db.add_user(admin_user, admin_pwd, roles=[{"role":"userAdminAnyDatabase", "db":"admin"}])
 
 # Authenticate with admin account.
 admin_db.authenticate(admin_user, admin_pwd)
 
 # Add users.
-print "[MongoDB] Add users."
+print "[MongoDB] Add users.\n"
 print mongo_users
 for user in mongo_users:
     if user["roles"][0] == "roots":
@@ -55,10 +55,10 @@ for user in mongo_users:
         db.add_user(user["user"], user["pwd"], roles=user["roles"])
 
 # Shut down mongod
-print "[MongoDB] Setup complete. Shutting down mongod."
+print "[MongoDB] Setup complete. Shutting down mongod.\n"
 shutdown_msg = subprocess.check_output("ps aux | grep mongod | grep -v grep | awk '{print $2}' | xargs kill | echo '[MongoDB] Sucessfully shut down mongod.'", shell = True)
 print shutdown_msg
-print "[MongoDB] Remove temp log files."
+print "[MongoDB] Remove temp log files.\n"
 subprocess.call("rm /tmp/tmp.log", shell = True)
 
 # Start mongod if the user want it running in daemon mode.
@@ -70,9 +70,9 @@ if mongo_logpath:
                                config = mongo_config), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
     subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
-    print "[MongoDB] Running mongod at port {port} with dbpath {dbpath}, logpath {logpath}.".format(port = mongo_port,
-                                                                                                    dbpath = mongo_dbpath,
-                                                                                                    logpath = mongo_logpath)
+    print "[MongoDB] Running mongod at port {port} with dbpath {dbpath}, logpath {logpath}.\n".format(port = mongo_port,
+                                                                                                      dbpath = mongo_dbpath,
+                                                                                                      logpath = mongo_logpath)
 else:
     cmd = "echo 'mongod --config {config} --port {port} --dbpath {dbpath}' > /home/scripts/mongod_start.sh"
     subprocess.call(cmd.format(port = mongo_port, 
@@ -80,5 +80,5 @@ else:
                                config = mongo_config), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
     subprocess.call("echo 'export MONGO_DBPATH={mongo_dbpath}' >> ~/.bashrc".format(mongo_dbpath= mongo_dbpath), shell = True)
-    print "[MongoDB] Running mongod at port {port} with dbpath {dbpath}.".format(port = mongo_port,
-                                                                                 dbpath = mongo_dbpath)
+    print "[MongoDB] Running mongod at port {port} with dbpath {dbpath}.\n".format(port = mongo_port,
+                                                                                   dbpath = mongo_dbpath)
