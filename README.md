@@ -11,7 +11,7 @@ Then you can use the environment variable ``MONGO_USERINFO`` to pass all setting
 ### Basic Usage
 
 ```
-docker run -it -p 27017:27017 dboyliao/docker-dboymongo
+docker run -it -p 27017:27017 dboyliao/smongo
 ```
 
 **It may take a while to setup MongoDB**
@@ -20,9 +20,9 @@ After the setup completed, you should have a running mongod on your localhost.
 
 - Type following command in your terminal shell to connect with mongodb.
 
-	- <strong> Linux </strong>: ```mongo localhost:27017```
+	- Linux: ```mongo localhost:27017```
 
-	- <strong> OS X (boot2docker) </strong>: ```mongo the.ip.for.boot2docker:27017``` (This one is BUGGY!)
+	- OS X (boot2docker): ```mongo the.ip.for.boot2docker:27017``` (This one is BUGGY!)
 	
 **There is some issues about the filesystem for docker on OS X. I haven't found a solution for running mongod in docker on OS X. Sorry....**
 
@@ -34,7 +34,7 @@ Also, you can easily pass admin information through environment variables.
 
 For example, run:
 ```
-docker run -it -p 27017:27017 -e "MONGO_ADMIN=qmal" -e "MONGO_ADMIN_PWD=qmalpwd" dboyliao/docker-dboymongo
+docker run -it -p 27017:27017 -e "MONGO_ADMIN=qmal" -e "MONGO_ADMIN_PWD=qmalpwd" dboyliao/smongo
 ``` 
 
 Then you should be able to login MongoDB as a user adminstrator with username="qmal" and password="qmalpwd".
@@ -46,7 +46,7 @@ There is a empty folder ```/share``` in this docker image to share outer files i
 
 Type:
 ```
-docker run -it -p 27017:27017 -v /home/dboy:/share -e "MONGO_USERINFO=/share/userinfo.py" dboyliao/docker-dboymongo
+docker run -it -p 27017:27017 -v /home/dboy:/share -e "MONGO_USERINFO=/share/userinfo.py" dboyliao/smongo
 ```
 
 Then the mongod is set according to ```userinfo.py```.
