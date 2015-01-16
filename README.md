@@ -6,6 +6,7 @@
 ### This docker image config all users, including user administrator, through userinfo.py
 
 See ```lib/userinfo_sample.py``` for all available settings.
+Then you can use the environment variable ``MONGO_USERINFO`` to pass all settings.
 
 ### Basic Usage
 
@@ -13,9 +14,11 @@ See ```lib/userinfo_sample.py``` for all available settings.
 docker run -it -p 27017:27017 dboyliao/docker-dboymongo
 ```
 
-**It may takes a while to setup MongoDB**
+**It may take a while to setup MongoDB**
 
-- Then, type following command in your terminal shell
+After the setup completed, you should have a running mongod on your localhost.
+
+- Type following command in your terminal shell to connect with mongodb.
 
 	- <strong> Linux </strong>: ```mongo localhost:27017```
 
@@ -25,9 +28,9 @@ docker run -it -p 27017:27017 dboyliao/docker-dboymongo
 
 - You now should be able to connect to mongo and the users are setted according to default values. See ```lib/userinfo_sample.py``` for all default values.
 
-### Passing User Information
+### Passing Admin Information
 
-Also, you can easily pass user information through environment variables.
+Also, you can easily pass admin information through environment variables.
 
 For example, run:
 ```
@@ -43,7 +46,7 @@ There is a empty folder ```/share``` in this docker image to share outer files i
 
 Type:
 ```
-docker run -it -p 27017:27017 -v /home/dboy:/share -e "MONGO_CONFIG=/share/userinfo.py" dboyliao/docker-dboymongo
+docker run -it -p 27017:27017 -v /home/dboy:/share -e "MONGO_USERINFO=/share/userinfo.py" dboyliao/docker-dboymongo
 ```
 
 Then the mongod is set according to ```userinfo.py```.
@@ -52,3 +55,6 @@ Then the mongod is set according to ```userinfo.py```.
 ### Enjoy!
 
 ======
+
+Issues:
+  1. Can't run on boot2docker. Need to fix the journaling issue. (without "--smallfiles" tag)

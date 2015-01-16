@@ -5,7 +5,7 @@ from pymongo import MongoClient
 # Check whether user has specified config.py .
 # If so, get all values in config.py.
 mongo_userinfo = os.getenv("MONGO_USERINFO", None)
-print mongo_userinfo
+print "MONGO_USERINFO: ", mongo_userinfo
 if mongo_userinfo:
     with open(mongo_userinfo, "r") as rf:
         lines = rf.readlines()
@@ -26,7 +26,6 @@ mongo_config = globals_var["MONGO_CONFIG"] if "MONGO_CONFIG" in globals_var else
 # Start mongod
 cmd = "mongod --port {port} --dbpath {dbpath} --logpath /tmp/tmp.log --fork --smallfiles"
 msg = "[MongoDB] Running mongod at port {port}, dbpath {dbpath} in order to add users.\n"
-print cmd.format(port = mongo_port, dbpath = mongo_dbpath)
 subprocess.call(cmd.format(port = mongo_port,
                            dbpath = mongo_dbpath), shell = True)
 print msg.format(port=mongo_port, dbpath=mongo_dbpath)
@@ -43,8 +42,8 @@ admin_db.add_user(admin_user, admin_pwd, roles=[{"role":"userAdminAnyDatabase", 
 admin_db.authenticate(admin_user, admin_pwd)
 
 # Add users.
-print "[MongoDB] Add users.\n"
-print mongo_users
+print "[MongoDB] Adding users.\n"
+print "[MongoDB] The users: ", mongo_users
 for user in mongo_users:
     if user["roles"][0] == "roots":
         print "root!"
