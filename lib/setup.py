@@ -45,7 +45,7 @@ admin_db.authenticate(admin_user, admin_pwd)
 print "[MongoDB] Adding users.\n"
 print "[MongoDB] The users: ", mongo_users
 for user in mongo_users:
-    if user["roles"][0] == "roots":
+    if user["roles"][0] == "root":
         print "root!"
         db = client["admin"]
         db.add_user(user["user"], user["pwd"], roles = ["root"])
@@ -63,8 +63,8 @@ subprocess.call("rm /tmp/tmp.log", shell = True)
 # Start mongod if the user want it running in daemon mode.
 if mongo_logpath:
     cmd = "echo 'mongod --auth --config {config} --port {port} --dbpath {dbpath} --logpath {logpath}' > /home/scripts/mongod_start.sh"
-    subprocess.call(cmd.format(port = mongo_port, 
-                               dbpath = mongo_dbpath, 
+    subprocess.call(cmd.format(port = mongo_port,
+                               dbpath = mongo_dbpath,
                                logpath = mongo_logpath,
                                config = mongo_config), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
@@ -74,7 +74,7 @@ if mongo_logpath:
                                                                                                       logpath = mongo_logpath)
 else:
     cmd = "echo 'mongod --auth --config {config} --port {port} --dbpath {dbpath}' > /home/scripts/mongod_start.sh"
-    subprocess.call(cmd.format(port = mongo_port, 
+    subprocess.call(cmd.format(port = mongo_port,
                                dbpath = mongo_dbpath,
                                config = mongo_config), shell = True)
     subprocess.call("echo 'export MONGO_PORT={mongo_port}' >> ~/.bashrc".format(mongo_port = mongo_port), shell = True)
