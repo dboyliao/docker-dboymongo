@@ -1,4 +1,4 @@
-FROM dockerfile/mongodb
+FROM mongo
 
 # Make a empty share directory for outer-files to be shared. Setup default mongodb dbpath.
 # /data/db: default mongod dbpath.
@@ -25,4 +25,4 @@ ADD mongodb.conf /var/mongodb.conf
 
 WORKDIR /home
 
-CMD echo 'hello world'
+CMD sh /home/scripts/start.sh
