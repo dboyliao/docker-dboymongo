@@ -25,4 +25,4 @@ ADD mongodb.conf /var/mongodb.conf
 
 WORKDIR /home
 
-CMD sh /home/scripts/start.sh
+CMD echo 'hello world'
